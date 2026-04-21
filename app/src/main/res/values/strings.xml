@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">TheAndroidSeries</string>
+    <string name="full_name">Timz Owen</string>
+    <string name="title">Android Developer Relations</string>
+    <string name="phone_number">+254 700 000 000</string>
+    <string name="social_handle">AndroidDev</string>
+    <string name="email_address">joe.doe@google.com</string>
 </resources>
