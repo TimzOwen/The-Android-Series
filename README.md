@@ -46,7 +46,7 @@ This project is built to be a learning resource. Key concepts include:
 
 1.  **Clone the Repository**:
     ```bash
-    git clone https://github.com/yourusername/TheAndroidSeries.git
+    git clone https://github.com/timzowen/TheAndroidSeries.git
     ```
 2.  **Open in Android Studio**:
     - Select **File > Open** and choose the project directory.
