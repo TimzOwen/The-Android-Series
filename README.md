@@ -12,11 +12,10 @@ A simple Android application built with Jetpack Compose that demonstrates a 2x2 
 ![Compose Quadrant](app/src/main/res/drawable/screenshot.png)
 
 ## Composables Explained
-The app showcases four fundamental Compose concepts:
-1. **Text Composable**: Displays text and follows the recommended Material Design guidelines.
-2. **Image Composable**: Creates a composable that lays out and draws a given Painter class object.
-3. **Row Composable**: A layout composable that places its children in a horizontal sequence.
-4. **Column Composable**: A layout composable that places its children in a vertical sequence.
+The app showcases four fundamental Compose concepts using modern Android best practices:
+- **Separation of Concerns**: Data is modeled using `QuadrantInfo` data classes.
+- **Theming**: Colors and styles are managed via the Material 3 theme system.
+- **Composable Reuse**: A generic `QuadrantComponent` handles rendering logic.
 
 ## Tech Stack
 - **Language**: Kotlin
