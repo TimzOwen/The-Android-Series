@@ -56,7 +56,7 @@ fun AffirmationApp(modifier: Modifier = Modifier) {
 
 @Composable
 fun AffirmationList(affirmations: List<Affirmation>, modifier: Modifier = Modifier) {
-    LazyColumn(modifier.padding(20.dp)) {
+    LazyColumn(modifier) {
         items(affirmations) { affirmation ->
             AffirmationCard(
                 affirmation,
@@ -64,7 +64,6 @@ fun AffirmationList(affirmations: List<Affirmation>, modifier: Modifier = Modifi
             )
         }
     }
-
 }
 
 @Composable

@@ -3,7 +3,7 @@ package com.timzowen.theandroidseries.data
 import com.timzowen.theandroidseries.R
 import com.timzowen.theandroidseries.affirmations.Affirmation
 
-class DataSource() {
+class DataSource {
 
     fun loafAffirmations(): List<Affirmation> {
         return listOf(
