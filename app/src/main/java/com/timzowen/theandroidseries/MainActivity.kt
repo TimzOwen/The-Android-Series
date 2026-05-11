@@ -5,10 +5,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -39,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -109,6 +114,10 @@ fun DogCardComponent(
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
+    val color by animateColorAsState(
+        targetValue = if (expanded) MaterialTheme.colorScheme.primary
+        else MaterialTheme.colorScheme.tertiaryContainer,
+        )
 
     Card(
         modifier = modifier
@@ -121,6 +130,7 @@ fun DogCardComponent(
                         stiffness = Spring.StiffnessLow
                     )
                 )
+                .background(color)
         ) {
             Row(
                 modifier = modifier
@@ -154,7 +164,7 @@ fun DogCardComponent(
                     expanded = expanded
                 )
             }
-            if (expanded)
+           if (expanded)
                 DogHobby(
                     dogHobby = dog.dogHobbies,
                     modifier = Modifier.padding(
@@ -198,7 +208,7 @@ fun DogItemButton(
         Icon(
             imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
             contentDescription = stringResource(R.string.expand_button_content_description),
-            tint = MaterialTheme.colorScheme.secondary
+            tint = if (!expanded) MaterialTheme.colorScheme.secondary else Color.White
         )
     }
 
