@@ -1,16 +1,28 @@
 package com.timzowen.theandroidseries
 
+import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.Spring.DampingRatioLowBouncy
+import androidx.compose.animation.core.Spring.DampingRatioMediumBouncy
+import androidx.compose.animation.core.Spring.StiffnessVeryLow
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -20,29 +32,62 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.timzowen.theandroidseries.model.Hero
-import com.timzowen.theandroidseries.model.HeroesRepository
+import com.timzowen.theandroidseries.model.HeroesRepository.heroes
 
 @Composable
-fun HeroesApp(modifier: Modifier = Modifier) {
+fun HeroesApp(
+    modifier: Modifier = Modifier,
+) {
     Scaffold(
         topBar = { HeroesAppBar() },
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
-        LazyColumn(
-            modifier
-                .padding(16.dp)
-                .padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(HeroesRepository.heroes) {
-                HeroesCardComponent(it)
+        HeroesList(modifier = Modifier.padding(innerPadding))
+    }
+}
+
+@Composable
+fun HeroesList(
+    modifier: Modifier = Modifier,
+    contentPaddingValues: PaddingValues = PaddingValues(0.dp)
+) {
+    val visibleState = remember {
+        MutableTransitionState(false)
+            .apply { targetState = true }
+    }
+
+    AnimatedVisibility(
+        visibleState = visibleState,
+        enter = fadeIn(animationSpec = spring(dampingRatio = DampingRatioLowBouncy)),
+        exit = fadeOut(),
+        modifier = modifier
+    ) {
+        LazyColumn(contentPadding = contentPaddingValues) {
+            itemsIndexed(heroes) { index, hero ->
+                HeroesCardComponent(
+                    hero = hero,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .animateEnterExit(
+                            enter = slideInVertically(
+                                animationSpec = spring(
+                                    stiffness = StiffnessVeryLow,
+                                    dampingRatio = DampingRatioLowBouncy
+                                ),
+                                initialOffsetY = { it * (index + 1) }
+                            )
+                        )
+                )
             }
         }
     }
@@ -54,12 +99,14 @@ fun HeroesCardComponent(
     modifier: Modifier = Modifier
 ) {
     Card(
-        elevation = CardDefaults.cardElevation(2.dp),
+        modifier,
+        elevation = CardDefaults.cardElevation(2.dp)
     ) {
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth()
+                .sizeIn(72.dp)
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
@@ -71,15 +118,19 @@ fun HeroesCardComponent(
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
-
-            Image(
+            Spacer(Modifier.padding(16.dp))
+            Box(
                 modifier = Modifier
-                    .padding(start = 16.dp)
-                    .clip(RoundedCornerShape(16.dp))
-                    .size(72.dp),
-                painter = painterResource(hero.imageRes),
-                contentDescription = stringResource(hero.nameRes)
-            )
+                    .size(72.dp)
+                    .clip(RoundedCornerShape(8.dp))
+            ) {
+                Image(
+                    painter = painterResource(hero.imageRes),
+                    contentDescription = stringResource(hero.nameRes),
+                    alignment = Alignment.TopCenter,
+                    contentScale = ContentScale.Crop
+                )
+            }
         }
     }
 }
@@ -99,6 +150,7 @@ fun HeroesAppBar(modifier: Modifier = Modifier) {
 }
 
 @Preview(showBackground = true)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun HeroesCardPreview(modifier: Modifier = Modifier) {
     HeroesCardComponent(
