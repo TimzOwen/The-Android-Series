@@ -1,3 +1,23 @@
 <resources>
-    <string name="app_name">TheAndroidSeries</string>
+    <string name="app_name">30 Days Of Wellness</string>
+    <string name="title_1">Take a Nature Walk</string>
+    <string name="title_2">Listen and Learn</string>
+    <string name="title_3">Learn Android Daily</string>
+    <string name="title_4">Stay Hydrated</string>
+    <string name="title_5">Stretch Your Body</string>
+    <string name="title_6">Read for Growth</string>
+    <string name="title_7">Practice Gratitude</string>
+    <string name="title_8">Spend Time with Loved Ones</string>
+    <string name="title_9">Build Personal Projects</string>
+    <string name="title_10">Get Enough Sleep</string>
+    <string name="description_1">Put some time to your calendar to take a walk outside or meet new people</string>
+    <string name="description_2">Listen to audiobook or podcast to explore or discover new stuff regarding my careers and making new friend at work and outside work</string>
+    <string name="description_3">Spend at least 30 minutes learning a new Android or Kotlin concept every day</string>
+    <string name="description_4">Drink enough water throughout the day and avoid skipping meals while working</string>
+    <string name="description_5">Take a short break from screens and stretch your body after long coding sessions</string>
+    <string name="description_6">Read a book or article that improves your mindset, productivity, or communication skills</string>
+    <string name="description_7">Practice gratitude by writing down three good things that happened during the day</string>
+    <string name="description_8">Spend quality time with family and friends without distractions from phone or work</string>
+    <string name="description_9">Work on a personal project or contribute to open source to sharpen development skills</string>
+    <string name="description_10">Sleep early and give your body enough rest to stay productive and mentally fresh</string>
 </resources>
