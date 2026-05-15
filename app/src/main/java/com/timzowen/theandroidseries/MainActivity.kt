@@ -38,6 +38,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,8 +54,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.timzowen.theandroidseries.data.DataSource
 import com.timzowen.theandroidseries.model.Dessert
+import com.timzowen.theandroidseries.ui.DessertUiState
+import com.timzowen.theandroidseries.ui.DessertViewModel
 import com.timzowen.theandroidseries.ui.theme.TheAndroidSeriesTheme
 
 private const val TAG = "MainActivity"
@@ -71,57 +76,33 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .statusBarsPadding()
                 ) {
-                    DessertApp(DataSource.dessertList)
+                    DessertClickerApp()
                 }
             }
         }
     }
+}
 
-    override fun onStart() {
-        super.onStart()
-        Log.d(TAG, "onStart Called")
-    }
+@Composable
+fun DessertClickerApp(
+    viewModel: DessertViewModel = viewModel()
+) {
 
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume Called")
-    }
+    val uiState by viewModel.uiState.collectAsState()
 
-    override fun onStop() {
-        super.onStop()
-        Log.d(TAG, "onStop Called")
-    }
+    DessertApp(
+        dessertUiState = uiState,
+        onDessertClicked = viewModel::onDessertClicked
+    )
 
-    override fun onRestart() {
-        super.onRestart()
-        Log.d(TAG, "onRestart Called")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d(TAG, "onPause Called")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG, "onDestroy Called")
-    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DessertApp(
-    desserts: List<Dessert>,
+    onDessertClicked: () -> Unit,
+    dessertUiState: DessertUiState
 ) {
-
-    var revenue by rememberSaveable { mutableStateOf(0) }
-    var dessertsSold by rememberSaveable { mutableStateOf(0) }
-
-    val currentDessertIndex by rememberSaveable { mutableStateOf(0) }
-
-    var currentDessertPrice by rememberSaveable { mutableStateOf(desserts[currentDessertIndex].price) }
-    var currentDessertImageId by rememberSaveable { mutableStateOf(desserts[currentDessertIndex].imageId) }
-
     Scaffold(
         topBar = {
             val intentContext = LocalContext.current
@@ -130,8 +111,8 @@ fun DessertApp(
                 onShareButtonClicked = {
                     shareSoldDessertsInformation(
                         intentContext = intentContext,
-                        dessertsSold = dessertsSold,
-                        revenue = revenue
+                        dessertsSold = dessertUiState.dessertSold,
+                        revenue = dessertUiState.revenue
                     )
                 },
                 modifier = Modifier
@@ -147,17 +128,10 @@ fun DessertApp(
         }
     ) { contentPadding ->
         DessertClickerScreen(
-            revenue = revenue,
-            dessertSold = dessertsSold,
-            dessertImageId = currentDessertImageId,
-            onDessertClicked = {
-                revenue += currentDessertPrice
-                dessertsSold++
-
-                val dessertToShow = determineDessertToShow(desserts, dessertsSold)
-                currentDessertImageId = dessertToShow.imageId
-                currentDessertPrice = dessertToShow.price
-            },
+            revenue = dessertUiState.revenue,
+            dessertSold = dessertUiState.dessertSold,
+            dessertImageId = dessertUiState.currentDessertImage,
+            onDessertClicked = onDessertClicked,
             modifier = Modifier.padding(contentPadding)
         )
 
@@ -319,9 +293,6 @@ private fun shareSoldDessertsInformation(intentContext: Context, dessertsSold: I
     }
 }
 
-/**
- * Determine which dessert to show.
- */
 fun determineDessertToShow(
     desserts: List<Dessert>,
     dessertsSold: Int
@@ -331,20 +302,8 @@ fun determineDessertToShow(
         if (dessertsSold >= dessert.startProductionAmount) {
             dessertToShow = dessert
         } else {
-            // The list of desserts is sorted by startProductionAmount. As you sell more desserts,
-            // you'll start producing more expensive desserts as determined by startProductionAmount
-            // We know to break as soon as we see a dessert who's "startProductionAmount" is greater
-            // than the amount sold.
             break
         }
     }
-
     return dessertToShow
-}
-
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun DessertPreviewApp(modifier: Modifier = Modifier) {
-    DessertApp(DataSource.dessertList)
 }
