@@ -4,7 +4,7 @@ package com.timzowen.theandroidseries.data
 const val MAX_NO_WORDS = 10
 const val SCORE_INCREASE = 20
 
-val words = setOf(
+val allWords = setOf(
     "animal",
     "auto",
     "anecdote",
