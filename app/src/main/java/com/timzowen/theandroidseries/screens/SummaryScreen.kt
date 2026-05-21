@@ -1,4 +1,3 @@
-
 package com.timzowen.theandroidseries.screens
 
 import androidx.compose.foundation.layout.Arrangement
@@ -29,8 +28,10 @@ import androidx.compose.ui.platform.LocalResources
 
 @Composable
 fun OrderSummaryScreen(
+    modifier: Modifier = Modifier,
     orderUiState: OrderUiState,
-    modifier: Modifier = Modifier
+    onCancelButtonClicked: () -> Unit,
+    onSendButtonClicked: (String, String) -> Unit
 ) {
     val resources = LocalResources.current
 
@@ -80,13 +81,15 @@ fun OrderSummaryScreen(
             ) {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = {}
+                    onClick = {
+                        onSendButtonClicked(newOrder, orderSummary)
+                    }
                 ) {
                     Text(stringResource(R.string.send))
                 }
                 OutlinedButton(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = {}
+                    onClick = onCancelButtonClicked
                 ) {
                     Text(stringResource(R.string.cancel))
                 }
@@ -101,7 +104,9 @@ fun OrderSummaryPreview() {
     TheAndroidSeriesTheme() {
         OrderSummaryScreen(
             orderUiState = OrderUiState(0, "Test", "Test", "$300.00"),
-            modifier = Modifier.fillMaxHeight()
+            modifier = Modifier.fillMaxHeight(),
+            onSendButtonClicked = { subject: String, summary: String -> },
+            onCancelButtonClicked = {}
         )
     }
 }

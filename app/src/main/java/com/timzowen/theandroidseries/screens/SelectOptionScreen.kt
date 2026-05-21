@@ -1,4 +1,3 @@
-
 package com.timzowen.theandroidseries.screens
 
 import androidx.compose.foundation.layout.Arrangement
@@ -10,6 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -27,13 +28,14 @@ import com.timzowen.theandroidseries.R
 import com.timzowen.theandroidseries.screens.components.FormattedPriceLabel
 import com.timzowen.theandroidseries.ui.theme.TheAndroidSeriesTheme
 
-
 @Composable
 fun SelectOptionScreen(
+    modifier: Modifier = Modifier,
     subtotal: String,
     options: List<String>,
     onSelectionChanged: (String) -> Unit = {},
-    modifier: Modifier = Modifier
+    onCancelButtonClicked: () -> Unit,
+    onNextButtonClicked: () -> Unit
 ) {
     var selectedValue by rememberSaveable { mutableStateOf("") }
 
@@ -63,9 +65,10 @@ fun SelectOptionScreen(
                     Text(item)
                 }
             }
-            Divider(
+            HorizontalDivider(
+                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_medium)),
                 thickness = dimensionResource(R.dimen.thickness_divider),
-                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_medium))
+                color = DividerDefaults.color
             )
             FormattedPriceLabel(
                 subtotal = subtotal,
@@ -86,14 +89,14 @@ fun SelectOptionScreen(
         ) {
             OutlinedButton(
                 modifier = Modifier.weight(1f),
-                onClick = {}
+                onClick = onCancelButtonClicked
             ) {
                 Text(stringResource(R.string.cancel))
             }
             Button(
                 modifier = Modifier.weight(1f),
                 enabled = selectedValue.isNotEmpty(),
-                onClick = {}
+                onClick = onNextButtonClicked
             ) {
                 Text(stringResource(R.string.next))
             }
@@ -108,7 +111,9 @@ fun SelectOptionPreview() {
         SelectOptionScreen(
             subtotal = "299.99",
             options = listOf("Option 1", "Option 2", "Option 3", "Option 4"),
-            modifier = Modifier.fillMaxHeight()
+            modifier = Modifier.fillMaxHeight(),
+            onNextButtonClicked = {},
+            onCancelButtonClicked = {}
         )
     }
 }

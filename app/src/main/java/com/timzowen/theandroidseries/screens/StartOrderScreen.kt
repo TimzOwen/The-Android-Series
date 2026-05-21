@@ -1,4 +1,3 @@
-
 package com.timzowen.theandroidseries.screens
 
 import com.timzowen.theandroidseries.data.DataSource
@@ -27,10 +26,10 @@ import androidx.compose.ui.unit.dp
 import com.timzowen.theandroidseries.R
 import com.timzowen.theandroidseries.ui.theme.TheAndroidSeriesTheme
 
-
 @Composable
 fun StartOrderScreen(
     quantityOptions: List<Pair<Int, Int>>,
+    onNextButtonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -65,7 +64,7 @@ fun StartOrderScreen(
             quantityOptions.forEach { item ->
                 SelectQuantityButton(
                     labelResourceId = item.first,
-                    onClick = {}
+                    onClick = { onNextButtonClicked(item.second) }
                 )
             }
         }
@@ -93,6 +92,7 @@ fun StartOrderPreview() {
     TheAndroidSeriesTheme() {
         StartOrderScreen(
             quantityOptions = DataSource.quantityOptions,
+            onNextButtonClicked = {},
             modifier = Modifier
                 .fillMaxSize()
                 .padding(dimensionResource(R.dimen.padding_medium))
