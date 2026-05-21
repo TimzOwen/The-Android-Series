@@ -17,20 +17,40 @@ class SendPayViewModel : ViewModel() {
 
     fun updateRecipient(name: String) {
         _uiState.update {
-            it.copy(recipientName = name)
+            it.copy(
+                recipientName = name,
+                recipientNameError = if (name.isBlank()) "Name cannot be empty" else null
+            )
         }
     }
 
     fun updatePhone(phone: String) {
+        val phoneRegex = "^[0-9]{10,12}$".toRegex()
         _uiState.update {
-            it.copy(phoneNumber = phone)
+            it.copy(
+                phoneNumber = phone,
+                phoneNumberError = when {
+                    phone.isBlank() -> "Phone number cannot be empty"
+                    !phone.matches(phoneRegex) -> "Invalid phone format"
+                    else -> null
+                }
+            )
         }
     }
 
     fun updateAmount(amount: String) {
+        val amountValue = amount.toDoubleOrNull()
         _uiState.update {
-            it.copy(amount = amount)
+            it.copy(
+                amount = amount,
+                amountError = when {
+                    amount.isBlank() -> "Amount cannot be empty"
+                    amountValue == null || amountValue <= 0 -> "Invalid amount"
+                    else -> null
+                }
+            )
         }
+        calculateTransactionFee()
     }
 
     fun updateFundingSource(source: FundingSource) {

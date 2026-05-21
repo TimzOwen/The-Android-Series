@@ -30,7 +30,7 @@ fun ReviewScreen(
                 ReviewItem("VAT", "KES ${uiState.vat}")
                 HorizontalDivider()
                 ReviewItem("Total Deduction", "KES ${uiState.total}", isTotal = true)
-                ReviewItem("Funding Source", uiState.fundingSource.name)
+                ReviewItem("Funding Source", uiState.fundingSource.displayName)
             }
         }
 

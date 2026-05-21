@@ -22,6 +22,8 @@ fun SuccessScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Text("✅", style = MaterialTheme.typography.displayLarge)
+        Spacer(modifier = Modifier.height(16.dp))
         Text("Transaction Successful!", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(32.dp))
         

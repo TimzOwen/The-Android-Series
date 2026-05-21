@@ -39,11 +39,12 @@ fun PinScreen(
             Spacer(modifier = Modifier.height(16.dp))
             OutlinedTextField(
                 value = pin,
-                onValueChange = { if (it.length <= 4) pin = it },
+                onValueChange = { if (it.length <= 4 && it.all { char -> char.isDigit() }) pin = it },
                 label = { Text("PIN") },
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
-                modifier = Modifier.width(150.dp)
+                modifier = Modifier.width(150.dp),
+                singleLine = true
             )
             Spacer(modifier = Modifier.height(32.dp))
             Button(

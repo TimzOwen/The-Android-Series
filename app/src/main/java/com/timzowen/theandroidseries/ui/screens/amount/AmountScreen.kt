@@ -8,6 +8,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.timzowen.theandroidseries.data.FundingSource
 import com.timzowen.theandroidseries.ui.screens.SendPayViewModel
@@ -30,7 +32,12 @@ fun AmountScreen(
             value = uiState.amount,
             onValueChange = { viewModel.updateAmount(it) },
             label = { Text("Amount") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            prefix = { Text("KES ") },
+            isError = uiState.amountError != null,
+            supportingText = { uiState.amountError?.let { Text(it) } },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+            singleLine = true
         )
 
         Text("Select Funding Source", style = MaterialTheme.typography.titleMedium)
@@ -54,7 +61,7 @@ fun AmountScreen(
                         onClick = null
                     )
                     Text(
-                        text = source.name,
+                        text = source.displayName,
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(start = 16.dp)
                     )
@@ -66,11 +73,10 @@ fun AmountScreen(
 
         Button(
             onClick = {
-                viewModel.calculateTransactionFee()
                 onNext()
             },
             modifier = Modifier.fillMaxWidth(),
-            enabled = uiState.amount.toDoubleOrNull() != null && uiState.amount.toDouble() > 0
+            enabled = uiState.amount.isNotBlank() && uiState.amountError == null
         ) {
             Text("Review")
         }
