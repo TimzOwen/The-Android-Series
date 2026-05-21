@@ -10,17 +10,22 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import android.content.Context
+import android.content.Intent
 import com.timzowen.theandroidseries.R
 import com.timzowen.theandroidseries.datasource.DataSource
+import com.timzowen.theandroidseries.model.OrderUiState
 import com.timzowen.theandroidseries.ui.screens.AccompanimentMenuScreen
 import com.timzowen.theandroidseries.ui.screens.CheckoutScreen
 import com.timzowen.theandroidseries.ui.screens.EntreeMenuScreen
 import com.timzowen.theandroidseries.ui.screens.OrderViewModel
 import com.timzowen.theandroidseries.ui.screens.SideDishMenuScreen
 import com.timzowen.theandroidseries.ui.screens.StartOrderScreen
+import com.timzowen.theandroidseries.ui.screens.formatPrice
 
 @Composable
 fun LunchTrayNavHost(
@@ -28,6 +33,7 @@ fun LunchTrayNavHost(
     viewModel: OrderViewModel,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     NavHost(
         navController = navController,
         startDestination = Screen.Start,
@@ -93,6 +99,10 @@ fun LunchTrayNavHost(
             CheckoutScreen(
                 orderUiState = uiState,
                 onNextButtonClicked = {
+                    shareOrder(
+                        context = context,
+                        orderUiState = uiState
+                    )
                     cancelAndNavigateToStart(viewModel, navController)
                 },
                 onCancelButtonClicked = {
@@ -107,6 +117,30 @@ fun LunchTrayNavHost(
     }
 }
 
+private fun shareOrder(
+    context: Context,
+    orderUiState: OrderUiState
+) {
+    val orderSummary = context.getString(
+        R.string.order_details,
+        orderUiState.entree?.name ?: "",
+        orderUiState.sideDish?.name ?: "",
+        orderUiState.accompaniment?.name ?: "",
+        orderUiState.orderTotalPrice.formatPrice()
+    )
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.new_order))
+        putExtra(Intent.EXTRA_TEXT, orderSummary)
+    }
+
+    context.startActivity(
+        Intent.createChooser(
+            intent,
+            context.getString(R.string.new_order)
+        )
+    )
+}
 private fun cancelAndNavigateToStart(
     viewModel: OrderViewModel,
     navController: NavHostController
