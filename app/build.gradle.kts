@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -51,8 +52,11 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     // Retrofit
     implementation(libs.retrofit)
-    // Retrofit with Scalar Converter
-    implementation(libs.retrofit.converter.scalars)
+    // Kotlin serialization
+    implementation(libs.kotlinx.serialization.json)
+    // Retrofit with Kotlin serialization Converter
+    implementation(libs.retrofit.kotlinx.serialization.converter)
+    implementation(libs.okhttp)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
