@@ -21,7 +21,7 @@ class MarsViewModelTest {
             )
             assertEquals(
                 MarsUiState.Success(FakeDataSource.photoList),
-                marsViewModel.marsUiState
+                marsViewModel.marsUiState.value
             )
         }
 }

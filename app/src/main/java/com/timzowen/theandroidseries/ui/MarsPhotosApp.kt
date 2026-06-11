@@ -10,14 +10,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.timzowen.theandroidseries.R
 import com.timzowen.theandroidseries.ui.screens.HomeScreen
 import com.timzowen.theandroidseries.ui.screens.MarsViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,9 +31,10 @@ fun MarsPhotosApp() {
         Surface(
             modifier = Modifier.fillMaxSize()
         ) {
-            val marsViewModel: MarsViewModel = viewModel(factory = MarsViewModel.Factory)
+            val marsViewModel: MarsViewModel = koinViewModel()
+            val marsUiState by marsViewModel.marsUiState.collectAsState()
             HomeScreen(
-                marsUiState = marsViewModel.marsUiState,
+                marsUiState = marsUiState,
                 contentPadding = it,
                 retryAction = marsViewModel::getMarsPhotos
             )

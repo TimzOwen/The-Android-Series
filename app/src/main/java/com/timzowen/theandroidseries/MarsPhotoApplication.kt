@@ -1,14 +1,17 @@
 package com.timzowen.theandroidseries
 
 import android.app.Application
-import com.timzowen.theandroidseries.data.AppContainer
-import com.timzowen.theandroidseries.data.DefaultAppContainer
+import com.timzowen.theandroidseries.di.appModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
-class MarsPhotoApplication: Application() {
+class MarsPhotoApplication : Application() {
 
-    lateinit var container: AppContainer
     override fun onCreate() {
         super.onCreate()
-        container = DefaultAppContainer()
+        startKoin {
+            androidContext(this@MarsPhotoApplication)
+            modules(appModule)
+        }
     }
 }

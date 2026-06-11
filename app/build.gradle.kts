@@ -59,6 +59,9 @@ dependencies {
     implementation(libs.okhttp)
     // Coil
     implementation(libs.coil.compose)
+    // Koin
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
     testImplementation(libs.junit)
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
     androidTestImplementation(libs.androidx.junit)

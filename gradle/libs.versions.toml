@@ -14,6 +14,8 @@ serializationJson = "1.5.1"
 retrofitSerializationConverter = "1.0.0"
 okhttp = "4.11.0"
 coil = "2.4.0"
+koin = "3.4.3"
+koinCompose = "3.4.6"
 kotlinSerializationPlugin = "1.8.10"
 
 [libraries]
@@ -38,6 +40,8 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 retrofit-kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitSerializationConverter" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koinCompose" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
