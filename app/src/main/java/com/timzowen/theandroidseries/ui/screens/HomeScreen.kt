@@ -13,11 +13,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.timzowen.theandroidseries.R
+import com.timzowen.theandroidseries.network.MarsPhoto
 import com.timzowen.theandroidseries.ui.theme.TheAndroidSeriesTheme
 
 @Composable
@@ -33,11 +38,9 @@ fun HomeScreen(
                 .padding(top = contentPadding.calculateTopPadding())
         )
 
-        is MarsUiState.Success -> ResultScreen(
-            marsUiState.photos,
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(top = contentPadding.calculateTopPadding())
+        is MarsUiState.Success -> MarsPhotoCard(
+            photo = marsUiState.photos,
+            modifier = modifier.fillMaxWidth()
         )
 
         is MarsUiState.Error -> ErrorScreen(
@@ -46,6 +49,19 @@ fun HomeScreen(
                 .padding(top = contentPadding.calculateTopPadding())
         )
     }
+}
+
+@Composable
+fun MarsPhotoCard(modifier: Modifier = Modifier, photo: MarsPhoto) {
+    AsyncImage(
+        modifier = modifier.fillMaxWidth(),
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(photo.imgSrc)
+            .crossfade(true)
+            .build(),
+        contentScale = ContentScale.Crop,
+        contentDescription = stringResource(R.string.mars_photo)
+    )
 }
 
 

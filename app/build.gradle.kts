@@ -57,6 +57,8 @@ dependencies {
     // Retrofit with Kotlin serialization Converter
     implementation(libs.retrofit.kotlinx.serialization.converter)
     implementation(libs.okhttp)
+    // Coil
+    implementation(libs.coil.compose)
     testImplementation(libs.junit)
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
     androidTestImplementation(libs.androidx.junit)

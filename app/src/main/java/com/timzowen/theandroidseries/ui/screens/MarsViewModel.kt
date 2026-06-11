@@ -10,7 +10,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.timzowen.theandroidseries.MarsPhotoApplication
+import com.timzowen.theandroidseries.network.MarsPhoto
 import com.timzowen.theandroidseries.repository.MarsPhotoRepository
+import com.timzowen.theandroidseries.repository.NetworkMarsPhotoRepository
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -27,8 +29,7 @@ class MarsViewModel(
     fun getMarsPhotos() {
         viewModelScope.launch {
             marsUiState = try {
-                val listResult = marsPhotoRepository.getPhotos()
-                MarsUiState.Success("Success: ${listResult.size} Mars photos retrieved")
+                MarsUiState.Success(marsPhotoRepository.getPhotos()[0])
             } catch (e: IOException) {
                 MarsUiState.Error(e.toString())
             }
