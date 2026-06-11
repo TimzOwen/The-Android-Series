@@ -2,8 +2,6 @@ package com.timzowen.theandroidseries.data
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.timzowen.theandroidseries.network.MarsApiService
-import com.timzowen.theandroidseries.repository.MarsPhotoRepository
-import com.timzowen.theandroidseries.repository.NetworkMarsPhotoRepository
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit

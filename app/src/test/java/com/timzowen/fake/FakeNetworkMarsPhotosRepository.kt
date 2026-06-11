@@ -1,7 +1,7 @@
 package com.timzowen.fake
 
-import com.timzowen.theandroidseries.network.MarsPhoto
-import com.timzowen.theandroidseries.repository.MarsPhotoRepository
+import com.timzowen.theandroidseries.model.MarsPhoto
+import com.timzowen.theandroidseries.data.MarsPhotoRepository
 
 class FakeNetworkMarsPhotosRepository : MarsPhotoRepository {
 

@@ -1,7 +1,7 @@
-package com.timzowen.theandroidseries.repository
+package com.timzowen.theandroidseries.data
 
 import com.timzowen.theandroidseries.network.MarsApiService
-import com.timzowen.theandroidseries.network.MarsPhoto
+import com.timzowen.theandroidseries.model.MarsPhoto
 
 interface MarsPhotoRepository {
 

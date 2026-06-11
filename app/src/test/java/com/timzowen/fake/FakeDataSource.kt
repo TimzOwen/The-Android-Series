@@ -1,6 +1,6 @@
 package com.timzowen.fake
 
-import com.timzowen.theandroidseries.network.MarsPhoto
+import com.timzowen.theandroidseries.model.MarsPhoto
 
 object FakeDataSource {
     const val idOne = "img1"

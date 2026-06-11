@@ -1,4 +1,4 @@
-package com.timzowen.theandroidseries.network
+package com.timzowen.theandroidseries.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

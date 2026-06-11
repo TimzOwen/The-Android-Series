@@ -1,6 +1,6 @@
 package com.timzowen.fake
 
-import com.timzowen.theandroidseries.repository.NetworkMarsPhotoRepository
+import com.timzowen.theandroidseries.data.NetworkMarsPhotoRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
